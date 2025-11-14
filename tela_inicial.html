@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYTEC</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(270deg, #001f3f, #0073e6, #3399ff);
+      background-size: 600% 600%;
+      animation: gradientBG 20s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, #00f0ff, #ff00d4, #00ff88);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 6s ease infinite;
+    }
+
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header h2 {
+      font-size: 1.4rem;
+      color: #dcdcdc;
+      opacity: 0.9;
+    }
+
+    
+    .banner {
+      width: 90%;
+      max-width: 1000px;
+      height: 260px;
+      margin: 40px auto;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 200, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+    }
+
+    .banner img {
+      max-width: 85%;
+      max-height: 100%;
+      object-fit: contain;
+      animation: bannerZoom 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes bannerZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
+    
+    .novidades {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin: 50px auto;
+      width: 90%;
+    }
+
+    .noticia {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      overflow: hidden;
+      width: 280px;
+      transition: transform 0.4s, box-shadow 0.4s;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 200, 0.2);
+    }
+
+    .noticia:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 0 25px rgba(0, 255, 200, 0.7);
+    }
+
+    .noticia img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .noticia:hover img {
+      transform: scale(1.07);
+    }
+
+    .noticia-content {
+      padding: 15px;
+    }
+
+    .noticia h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #00f0ff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 5px;
+    }
+
+    .noticia p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #e0e0e0;
+    }
+
+    .noticia a {
+      color: #ff00d4;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+   
+    .menu-container {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 250px;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: left 0.4s ease;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 100;
+    }
+
+    .menu-container.open {
+      left: 0;
+    }
+
+    .menu-container button {
+      padding: 12px 15px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e90ff, #00bfff);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .menu-container button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #00f0ff, #0099ff);
+      box-shadow: 0 0 12px rgba(0, 200, 255, 0.6);
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      padding: 12px 18px;
+      background: linear-gradient(135deg, #00f0ff, #0066ff);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 101;
+      transition: 0.3s;
+      box-shadow: 0 0 12px rgba(0, 200, 255, 0.6);
+    }
+
+    .menu-toggle:hover {
+      background: linear-gradient(135deg, #00ffcc, #00aaff);
+    }
+
+    @media (max-width: 600px) {
+      .noticia {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-toggle">☰</button>
+
+  <div class="menu-container" id="menu">
+    <button>Tela inicial</button>
+    <button>Cuidados</button>
+    <button><a href="/topsites.html" style="color: white; text-decoration: none; ">Top Sites</a></button>
+    <button><a href="/Jogospopularidade.html" style="color:white; text-decoration: none;">Games</a></button>
+    <button><a href="Peça_pc.html" style="color: white; text-decoration: none;">Peças de pc</a></button>
+  </div>
+
+  <header>
+    <h1>BYTEC</h1>
+    <h2>O melhor site sobre tecnologia do país</h2>
+  </header>
+
+  <div class="banner">
+    <img src="Conheça os virus de computador.gif" alt="Banner animado">
+  </div>
+
+  <section class="novidades">
+    <div class="noticia">
+      <img src="https://play-lh.googleusercontent.com/d2zqBFBEymSZKaVg_dRo1gh3hBFn7_Kl9rO74xkDmnJeLgDW0MoJD3cUx0QzZN6jdsg" alt="Imagem Notícia 1">
+      <div class="noticia-content">
+        <h3>A nova IA para disputar com o ChatGPT</h3>
+        <p><a href="/Nova ia.html">Clique pra ver mais ⇒</a></p>
+      </div>
+    </div>
+    <div class="noticia">
+      <img src="/Captura de tela 2025-08-22 152639.png" alt="Imagem Notícia 2">
+      <div class="noticia-content">
+        <h3>Pokémon perde mais de 89% dos jogadores</h3>
+        <p><a href="/Jogospopularidade.html">Clique pra ver mais ⇒</a></p>
+      </div>
+    </div>
+    <div class="noticia">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxyPcOPCvnkQ5cKyMs3Ocv3AygknY3G19sXA&s" alt="Imagem Notícia 3">
+      <div class="noticia-content">
+        <h3>Novo vírus está destruindo computadores</h3>
+        <p>Clique pra ver mais</p>
+      </div>
+    </div>
+    <div class="noticia">
+      <img src="imagem3.jpg" alt="Imagem Notícia 4">
+      <div class="noticia-content">
+        <h3>Notícia 5</h3>
+        <p>Dicas e cuidados para proteger seus dados.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const menu = document.getElementById('menu');
+    const toggle = document.querySelector('.menu-toggle');
+
+    function toggleMenu() {
+      menu.classList.toggle('open');
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+  </script>
+
+</body>
+</html>

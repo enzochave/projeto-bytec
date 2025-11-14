@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Cassino 3x3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .jogo {
+      text-align: center;
+    }
+
+    h1 {
+      color: gold;
+      margin-bottom: 20px;
+    }
+
+    .saldo {
+      font-size: 22px;
+      margin: 15px 0;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      background: gold;
+      color: black;
+    }
+
+    .roleta {
+      font-size: 50px;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      width: 200px;
+    }
+
+    .mensagem {
+      font-size: 28px;
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 50px;
+    }
+
+    .mensagem.grande {
+      font-size: 45px;
+      color: red;
+      font-weight: bold;
+      animation: piscar 0.5s infinite alternate;
+    }
+
+    @keyframes piscar {
+      from { color: red; }
+      to { color: yellow; }
+    }
+
+    .regras {
+      background: #222;
+      border-radius: 10px;
+      padding: 20px;
+      width: 320px;
+    }
+
+    .regras h2 {
+      color: gold;
+      margin-bottom: 10px;
+    }
+
+    .regras ul {
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6em;
+    }
+
+    .ganhos {
+      margin-top: 15px;
+      font-size: 20px;
+      color: lightgreen;
+    }
+  </style>
+</head>
+<body>
+  <div class="jogo">
+    <h1>🎰 Mini Cassino 3x3</h1>
+
+    <div class="saldo">Saldo: R$ <span id="saldo">0.00</span></div>
+    <div class="ganhos">💰 Total de ganhos: R$ <span id="ganhosTotais">0.00</span></div>
+
+    <input type="number" id="valorDeposito" placeholder="Digite o valor" min="0" step="0.01">
+    <button onclick="depositar()" id="btnDeposito">Depositar</button>
+
+    <br>
+    <button onclick="girar()">🎲 Girar Roleta (-R$5,00)</button>
+
+    <div class="roleta" id="roleta"></div>
+    <div class="mensagem" id="mensagem"></div>
+  </div>
+
+  <div class="regras">
+    <h2>📜 Regras & Ganhos</h2>
+    <ul>
+      <li>🍓 3x Morangos = R$1,22</li>
+      <li>🍉 3x Melancia = Multiplicador 2x</li>
+      <li>🥥 3x Coco na diagonal = R$5,99</li>
+      <li>🍋 3x Limões (linha de cima OU baixo) = R$4,88</li>
+      <li>🍋 Limões em cima e embaixo = Multiplicador 6x</li>
+      <li>🍎 3x Maçãs formando X (duas diagonais) = R$155,00</li>
+      <li>🍌 3x Bananas (linha, coluna ou diagonal) = R$15,99</li>
+      <li>🥭 3x Mangas (linha do meio) = R$90,00</li>
+      <li>🥭 Manga em formato de T = R$290,00</li>
+    </ul>
+  </div>
+
+  <script>
+    let saldo = 0;
+    let multiplicador = 1;
+    let primeiroDeposito = 0;
+    let depositoLiberado = true;
+    let ganhosTotais = 0;
+    const precoAposta = 5.00;
+    const frutas = ["🍓", "🍉", "🥥", "🍋", "🍎", "🍌", "🥭"];
+
+    function atualizarSaldo() {
+      document.getElementById("saldo").textContent = saldo.toFixed(2);
+    }
+
+    function atualizarGanhos() {
+      document.getElementById("ganhosTotais").textContent = ganhosTotais.toFixed(2);
+    }
+
+    function mostrarMensagem(texto, grande=false) {
+      let msg = document.getElementById("mensagem");
+      msg.textContent = texto;
+      msg.className = "mensagem";
+      if (grande) msg.classList.add("grande");
+
+      setTimeout(() => {
+        msg.textContent = "";
+        msg.className = "mensagem";
+      }, 3000);
+    }
+
+    function depositar() {
+      if (!depositoLiberado) {
+        mostrarMensagem("Depósito bloqueado! Ganhe o dobro ou zere para liberar.");
+        return;
+      }
+
+      let valor = parseFloat(document.getElementById("valorDeposito").value);
+      if (!isNaN(valor) && valor > 0) {
+        saldo += valor;
+        atualizarSaldo();
+        if (primeiroDeposito === 0) {
+          primeiroDeposito = valor;
+        }
+        depositoLiberado = false;
+        document.getElementById("valorDeposito").value = "";
+      }
+    }
+
+    function liberarDeposito() {
+      if (saldo === 0 || saldo >= primeiroDeposito * 2) {
+        depositoLiberado = true;
+        mostrarMensagem("💰 Você acumulou de grana: R$" + ganhosTotais.toFixed(2), true);
+      }
+    }
+
+    function girar() {
+      if (saldo < precoAposta) {
+        mostrarMensagem("Saldo insuficiente!");
+        liberarDeposito();
+        return;
+      }
+
+      saldo -= precoAposta;
+      atualizarSaldo();
+
+      // Gera a grade 3x3
+      let grid = [];
+      let roletaDiv = document.getElementById("roleta");
+      roletaDiv.innerHTML = "";
+
+      for (let i = 0; i < 9; i++) {
+        let fruta = frutas[Math.floor(Math.random() * frutas.length)];
+        grid.push(fruta);
+        let span = document.createElement("div");
+        span.textContent = fruta;
+        roletaDiv.appendChild(span);
+      }
+
+      let premio = 0;
+      let mensagem = "";
+
+      // 🍓 Morangos
+      if ((grid[0]==="🍓"&&grid[1]==="🍓"&&grid[2]==="🍓")||
+          (grid[3]==="🍓"&&grid[4]==="🍓"&&grid[5]==="🍓")||
+          (grid[6]==="🍓"&&grid[7]==="🍓"&&grid[8]==="🍓")||
+          (grid[0]==="🍓"&&grid[3]==="🍓"&&grid[6]==="🍓")||
+          (grid[1]==="🍓"&&grid[4]==="🍓"&&grid[7]==="🍓")||
+          (grid[2]==="🍓"&&grid[5]==="🍓"&&grid[8]==="🍓")) {
+        premio = 1.22;
+        mensagem = "3x 🍓! +R$1,22";
+      }
+
+      // 🍉 Melancia
+      if ((grid[0]==="🍉"&&grid[1]==="🍉"&&grid[2]==="🍉")||
+          (grid[3]==="🍉"&&grid[4]==="🍉"&&grid[5]==="🍉")||
+          (grid[6]==="🍉"&&grid[7]==="🍉"&&grid[8]==="🍉")||
+          (grid[0]==="🍉"&&grid[3]==="🍉"&&grid[6]==="🍉")||
+          (grid[1]==="🍉"&&grid[4]==="🍉"&&grid[7]==="🍉")||
+          (grid[2]==="🍉"&&grid[5]==="🍉"&&grid[8]==="🍉")) {
+        multiplicador = 2;
+        mensagem = "3x 🍉! Multiplicador 2x ativado!";
+      }
+
+      // 🥥 Coco diagonal
+      if ((grid[0]==="🥥"&&grid[4]==="🥥"&&grid[8]==="🥥")||
+          (grid[2]==="🥥"&&grid[4]==="🥥"&&grid[6]==="🥥")) {
+        premio = 5.99;
+        mensagem = "3x 🥥 na diagonal! +R$5,99";
+      }
+
+      // 🍋 Limões
+      if (grid[0]==="🍋"&&grid[1]==="🍋"&&grid[2]==="🍋") {
+        premio = 4.88;
+        mensagem = "3x 🍋 na linha de cima! +R$4,88";
+      }
+      if (grid[6]==="🍋"&&grid[7]==="🍋"&&grid[8]==="🍋") {
+        if (premio>0&&mensagem.includes("cima")) {
+          multiplicador = 6;
+          mensagem = "🍋 em cima e em baixo! Multiplicador 6x ativado!";
+          premio = 0;
+        } else {
+          premio = 4.88;
+          mensagem = "3x 🍋 na linha de baixo! +R$4,88";
+        }
+      }
+
+      // 🍎 X completo
+      if (grid[0]==="🍎"&&grid[4]==="🍎"&&grid[8]==="🍎"&&
+          grid[2]==="🍎"&&grid[6]==="🍎") {
+        premio = 155;
+        mensagem = "🍎 X completo! +R$155,00";
+      }
+
+      // 🍌 Banana qualquer direção
+      const linhas = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (let linha of linhas) {
+        if (grid[linha[0]]==="🍌"&&grid[linha[1]]==="🍌"&&grid[linha[2]]==="🍌") {
+          premio = 15.99;
+          mensagem = "3x 🍌! +R$15,99";
+        }
+      }
+
+      // 🥭 Manga linha do meio
+      if (grid[3]==="🥭"&&grid[4]==="🥭"&&grid[5]==="🥭") {
+        premio = 90;
+        mensagem = "3x 🥭 no meio! +R$90,00";
+      }
+
+      // 🥭 Manga em formato de T
+      if (grid[1]==="🥭"&&grid[3]==="🥭"&&grid[4]==="🥭"&&grid[5]==="🥭"&&grid[7]==="🥭") {
+        premio = 290;
+        mensagem = "🥭 Formato de T! +R$290,00 🎉🎆✨";
+      }
+
+      // aplica ganhos
+      if (premio > 0) {
+        premio *= multiplicador;
+        saldo += premio;
+        ganhosTotais += premio;
+        atualizarGanhos();
+        mensagem += ` (+R$${premio.toFixed(2)})`;
+        multiplicador = 1;
+      }
+
+      atualizarSaldo();
+      if (mensagem !== "") mostrarMensagem(mensagem, true);
+      liberarDeposito();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A nova IA que vai disputar com o ChatGPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            background-color: #222;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 50px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px #ff0;
+        }
+
+        header h2 {
+            color: tomato;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .noticia {
+            display: flex;
+            background: white;
+            max-width: 900px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .texto-noticia {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .texto-noticia h3 {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #222;
+        }
+
+        .imagem-noticia {
+            width: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .imagem-noticia img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        
+        .imagem-noticia::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .imagem-noticia:hover::after {
+            opacity: 1;
+        }
+
+        .imagem-noticia:hover img {
+            transform: scale(1.05);
+        }
+
+          .menu-toggle {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            padding: 12px 18px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 101;
+            transition: background 0.3s;
+            }
+
+            .menu-toggle:hover {
+            background-color: #00bfff;
+        }
+        .menu-container {
+    position: fixed;
+    top: 70px;
+    left: -200px; 
+    width: 180px;
+    background: #222;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    transition: left 0.3s ease;
+    z-index: 100;
+}
+
+.menu-container.open {
+    left: 20px; 
+}
+
+.menu-container button {
+    background: #1e90ff;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-container button:hover {
+    background: #00bfff;
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DeepSeek desafia o ChatGPT</h1>
+        <h2>Nova IA promete bater de frente na corrida pela inteligência artificial</h2>
+    </header>
+
+    <main>
+        <div class="noticia">
+            <div class="texto-noticia">
+                <h3>
+                    A <strong>DeepSeek</strong>, nova <strong>inteligência artificial</strong>, está <strong>desafiando o ChatGPT</strong> ao oferecer respostas mais rápidas e personalizadas. Especialistas dizem que essa <strong>corrida tecnológica</strong> promete revolucionar a forma como interagimos com IAs, tornando a conversa mais natural e eficiente. Usuários já estão curiosos para testar essa <strong>nova geração de IA</strong> e comparar com o ChatGPT.
+                </h3>
+            </div>
+            <div class="imagem-noticia">
+                <img src="A4 Eu te amo com linha Fina.png" alt="Notícia IA">
+            </div>
+        </div>
+    </main>
+
+     <button class="menu-toggle">☰</button>
+
+    <div class="menu-container" id="menu">
+        <button> <a href="tela_inicial.html">tela inicial</a></button>
+       
+        <button>Cuidados</button>
+        <button>Top Sites</button>
+        <button><a href="Jogospopularidade.html" style="color: white;">Games</a></button>
+        <button><a href="Peça_pc.html" style="color: white;">Peças de pc</a></button>
+    </div>
+    <script>
+        const menu = document.getElementById('menu');
+        const toggle = document.querySelector('.menu-toggle');
+
+        function toggleMenu() {
+            menu.classList.toggle('open');
+        }
+
+        toggle.addEventListener('click', toggleMenu);
+    </script>
+</body>
+</html>

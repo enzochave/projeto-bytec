@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top Sites</title>
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.3em;
+      color: #0a74da;
+    }
+
+    h2 {
+      font-weight: 400;
+      color: #555;
+    }
+
+    /* Container do conteúdo principal */
+    main {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Link que envolve a imagem */
+    a.site-link {
+      display: block;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(10, 116, 218, 0.15);
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    a.site-link:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 30px rgba(10, 116, 218, 0.3);
+    }
+
+    a.site-link img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* Texto explicativo */
+    .description {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #444;
+      text-align: center;
+    }
+
+    /* Rodapé simples */
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Top Sites</h1>
+    <h2>Quer saber os melhores sites sobre seus gostos? Pesquise aqui 🠗</h2>
+  </header>
+
+  <main>
+    <a 
+      href="https://stripe.com/br" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="site-link"
+      title="Visitar Stripe Brasil - Plataforma de pagamentos online"
+    >
+      <img src="https://play-lh.googleusercontent.com/2PS6w7uBztfuMys5fgodNkTwTOE6bLVB2cJYbu5GHlARAK36FzO5bUfMDP9cEJk__cE" alt="Stripe Brasil - Plataforma de pagamentos online" />
+    </a>
+    <p class="description">
+      Stripe é uma plataforma de pagamentos online que facilita transações para milhões de empresas no mundo todo. Com soluções completas, integrações simples e alta segurança, é uma escolha confiável para seu negócio digital.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2025 Top Sites. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
